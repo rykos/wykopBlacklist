@@ -2,7 +2,7 @@
     "name": "wykop blacklist",
     "version": "0.0.0.1",
     "manifest_version": 2,
-    "description": "A Chromium extension to block users.",
+    "description": "A Chromium extension to block users on wykop.pl",
     "browser_action": {
         "default_popup": "popup/popup.html"
     },
