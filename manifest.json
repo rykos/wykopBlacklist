@@ -15,6 +15,9 @@
                 "*://*.wykop.pl/*"
             ],
             "js": [
+                "utils.js",
+                "comments.js",
+                "overlay.js",
                 "blocker.js"
             ],
             "css": [
