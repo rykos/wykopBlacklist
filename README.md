@@ -3,6 +3,7 @@
 > Konto wykop nie jest wymagane a lista synchronizuje się z kontem google jeśli jest dostępne
 
 ##Instalacja ręczna
+
 ###1. Pobierz projekt i go rozpakuj
 [](images/1.png)
 ###2. Otwórz zakladkę rozszerzenia
