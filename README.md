@@ -13,7 +13,7 @@
 ![](images/prev4.png)
 
 <details>
-  <summary>Instalacja ręczna</summary>
+  <summary>## Instalacja ręczna</summary>
   
   ### 1. Pobierz projekt i go rozpakuj
   ![](images/1.png)
