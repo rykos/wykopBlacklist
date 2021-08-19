@@ -2,6 +2,16 @@
 #### Rozszerzenie chromium do wykopu tworzy czarną liste po stronie użytkownika dzięki czemu jest ona wstanie pomieścic znacznie więcej użytkowników
 > Konto wykop nie jest wymagane a lista synchronizuje się z kontem google jeśli jest dostępne
 
+## Zastosowanie
+#### Każdy użytkownik posiada przycisk do zablokowania pod avatarem
+![](images/prev1.png)
+#### Po zablokowaniu przycisk zmieni się w przycisk do odblokowania
+![](images/prev2.png)
+#### Posty zablokowanych użytkowników zostaną schowane i pokazują się dopiero po kliknięciu na nie
+![](images/prev3.png)
+#### Komentarze użytkowników działają na tej samej zasadzie
+![](images/prev4.png)
+
 ## Instalacja ręczna
 ### 1. Pobierz projekt i go rozpakuj
 ![](images/1.png)
