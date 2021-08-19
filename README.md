@@ -12,7 +12,6 @@
 #### Komentarze użytkowników działają na tej samej zasadzie
 ![](images/prev4.png)
 
-# A collapsible section with markdown
 <details>
   <summary>Instalacja ręczna</summary>
   
