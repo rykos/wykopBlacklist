@@ -33,7 +33,6 @@ function ShowCommentClick(event) {
 
 function CensorComments(scope = document) {
     console.log("cc");
-    // var subs = scope.querySelectorAll(".sub,.comments-stream");
     let subs = scope.getElementsByClassName("wblock lcontrast dC");
     for (let j = 0; j < subs.length; j++) {
         CensorComment(subs[j]);

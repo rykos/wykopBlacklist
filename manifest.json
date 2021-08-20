@@ -1,13 +1,16 @@
 {
     "name": "wykop blacklist",
-    "version": "0.0.0.1",
-    "manifest_version": 2,
+    "version": "0.0.0.2",
+    "manifest_version": 3,
     "description": "A Chromium extension to block users on wykop.pl",
-    "browser_action": {
+    "action": {
         "default_popup": "popup/popup.html"
     },
     "permissions": [
         "storage"
+    ],
+    "host_permissions": [
+        "*://*.wykop.pl/*"
     ],
     "content_scripts": [
         {
@@ -19,9 +22,6 @@
                 "comments.js",
                 "overlay.js",
                 "blocker.js"
-            ],
-            "css": [
-                "style.css"
             ]
         }
     ]

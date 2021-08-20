@@ -1,5 +1,6 @@
 const HIDER_ID = "wykopBlacklistHider";
 const REPLACEBANNER_ID = "wykopBlacklistReplaceBanner";
+const BLOCKBUTTON_ID = "wykopblacklistBlockButton";
 
 var blockList = [];
 
@@ -57,8 +58,7 @@ function Main() {
         blockList = result.blocks;
         if (!blockList)
             blockList = [];
-            
-        console.log(blockList);
+
         RenderButtonsOnProfiles();
         CensorPosts();
         CensorComments();

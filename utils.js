@@ -11,6 +11,8 @@ function BlockUser(username) {
         blockList.push(username);
     }
     chrome.storage.sync.set({ 'blocks': blockList }, function () { console.log(blockList); });
+
+    UpdateBlockButtons(username);
 }
 
 function IsBlocked(username) {

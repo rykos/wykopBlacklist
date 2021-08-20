@@ -2,18 +2,18 @@
  * Hooks "more" buttons to observer that renders ui on loaded elements
  */
 function HookMoreButtons() {
-    let btns = document.getElementsByClassName("more");
-    for (let i = 0; i < btns.length; i++) {
-        btns[i].getElementsByTagName("a")[0].onclick = () => {
-            console.log(btns[i]);
-            var mutationObs = new MutationObserver(function (e) {
+    let buttons = document.getElementsByClassName("more");
+    for (let i = 0; i < buttons.length; i++) {
+        let element = buttons[i];
+        element.getElementsByTagName("a")[0].onclick = () => {
+            let mutationObs = new MutationObserver(function (e) {
                 mutationObs.disconnect();
-                for (let i = 0; i < e[0].addedNodes.length; i++) {
-                    RenderButtonOnProfile(e[0].addedNodes[i]);
-                    CensorComment(e[0].addedNodes[i]);
+                for (let j = 0; j < e[0].addedNodes.length; j++) {
+                    RenderButtonOnProfile(e[0].addedNodes[j]);
+                    CensorComment(e[0].addedNodes[j]);
                 }
             });
-            mutationObs.observe(btns[i].parentElement.parentElement, { childList: true, subtree: true });
+            mutationObs.observe(element.parentElement.parentElement, { childList: true, subtree: true });
         };
     }
 }
@@ -36,7 +36,6 @@ function RenderButtonsOnProfiles(scope = document) {
 
 function BlockClick(event) {
     event.preventDefault();
-    console.log(event.target.parentElement.href);
     let username = GetUsernameFromHref(event.target.parentElement.href);
     BlockUser(username);
     ApplyBlockButtonStyle(event.target, IsBlocked(username));
@@ -50,6 +49,7 @@ function CreateBlockButton(blocked) {
 }
 
 function ApplyBlockButtonStyle(element, blocked) {
+    element.setAttribute("name", BLOCKBUTTON_ID);
     element.style.width = "100%";
     element.style.display = "flex";
     element.style.alignContent = "center";
@@ -63,5 +63,15 @@ function ApplyBlockButtonStyle(element, blocked) {
     else {
         element.innerText = "block";
         element.style.backgroundColor = "rgb(75, 75, 75)";
+    }
+}
+
+function UpdateBlockButtons(username) {
+    let blockButtons = document.getElementsByName(BLOCKBUTTON_ID);
+    for (let i = 0; i < blockButtons.length; i++) {
+        let buttonUsername = GetUsernameFromHref(blockButtons[i].parentElement.href);
+        if (buttonUsername == username) {
+            ApplyBlockButtonStyle(blockButtons[i], IsBlocked(username));
+        }
     }
 }
