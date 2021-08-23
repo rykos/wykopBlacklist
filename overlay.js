@@ -18,33 +18,38 @@ function HookMoreButtons() {
     }
 }
 
+// (entry iC )
 function RenderButtonOnProfile(profile) {
-    profile = profile.getElementsByClassName("profile")[0];
-    let username = GetUsernameFromHref(profile.href);
-    let element = CreateBlockButton(IsBlocked(username));
-    profile.appendChild(element);
+    if (!profile)
+        return;
+
+    profile = profile.getElementsByClassName("profile");
+    for (let i = 0; i < profile.length; i++) {
+        let username = GetUsernameFromHref(profile[i].href);
+        let element = CreateBlockButton(IsBlocked(username), username);
+        profile[i].appendChild(element);
+    }
 }
 
 function RenderButtonsOnProfiles(scope = document) {
     let profiles = scope.getElementsByClassName("profile");
     for (let i = 0; i < profiles.length; i++) {
         let username = GetUsernameFromHref(profiles[i].href);
-        let element = CreateBlockButton(IsBlocked(username));
+        let element = CreateBlockButton(IsBlocked(username), username);
         profiles[i].appendChild(element);
     }
 }
 
-function BlockClick(event) {
+function BlockClick(event, username) {
     event.preventDefault();
-    let username = GetUsernameFromHref(event.target.parentElement.href);
     BlockUser(username);
     ApplyBlockButtonStyle(event.target, IsBlocked(username));
 }
 
-function CreateBlockButton(blocked) {
+function CreateBlockButton(blocked, username) {
     let element = document.createElement("div");
     ApplyBlockButtonStyle(element, blocked);
-    element.onclick = (event) => BlockClick(event);
+    element.onclick = (event) => BlockClick(event, username);
     return element;
 }
 
@@ -56,6 +61,7 @@ function ApplyBlockButtonStyle(element, blocked) {
     element.style.justifyContent = "center";
     element.style.borderRadius = "2px";
     element.style.fontSize = "10px";
+    element.style.cursor = "pointer";
     if (blocked) {
         element.innerText = "unblock";
         element.style.backgroundColor = "rgb(82, 43, 43)";
@@ -72,6 +78,36 @@ function UpdateBlockButtons(username) {
         let buttonUsername = GetUsernameFromHref(blockButtons[i].parentElement.href);
         if (buttonUsername == username) {
             ApplyBlockButtonStyle(blockButtons[i], IsBlocked(username));
+        }
+    }
+}
+
+function CensorArticles() {
+    let articles = document.getElementsByClassName("article  clearfix preview   dC");
+    for (let index = 0; index < articles.length; index++) {
+        let username = articles[index].getElementsByClassName("fix-tagline")[0].querySelectorAll("[class^='color']")[0];
+        if (!username)
+            continue;
+        username = GetUsernameFromHref(username.href);
+        let article = articles[index];
+        if (IsBlocked(username)) {
+            article.style.display = "none";
+
+            let medias = article.getElementsByClassName("text")[0].getElementsByClassName("media-content");
+            if (medias.length > 0) {
+                medias[0].style.display = "none";
+            }
+            let elem = document.createElement("p");
+            elem.innerText = "Wyswietl artykuł";
+            elem.style.margin = "5px";
+            elem.style.display = "flex";
+            elem.style.justifyContent = "center";
+            elem.style.cursor = "pointer";
+            elem.onclick = (event) => {
+                article.style.display = "block";
+                event.target.style.display = "none";
+            };
+            article.parentElement.prepend(elem);
         }
     }
 }

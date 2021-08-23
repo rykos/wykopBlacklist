@@ -1,6 +1,6 @@
 {
     "name": "wykop blacklist",
-    "version": "0.0.0.2",
+    "version": "0.0.0.3",
     "manifest_version": 3,
     "description": "A Chromium extension to block users on wykop.pl",
     "action": {
@@ -22,6 +22,14 @@
                 "comments.js",
                 "overlay.js",
                 "blocker.js"
+            ]
+        },
+        {
+            "matches": [
+                "*://*.wykop.pl/ludzie/*"
+            ],
+            "js": [
+                "profile_overlay.js"
             ]
         }
     ]

@@ -48,21 +48,45 @@ function CensorPosts() {
         }
     }
 }
-
+var promise;
 function Main() {
     //Force eager load
     eagerLoad();
 
     //Load blocked users and proceed to block content
-    chrome.storage.sync.get('blocks', function (result) {
-        blockList = result.blocks;
-        if (!blockList)
-            blockList = [];
+    promise = new Promise((res, rej) => {
+        chrome.storage.sync.get('blocks', function (result) {
+            blockList = result.blocks;
+            if (!blockList)
+                blockList = [];
 
-        RenderButtonsOnProfiles();
-        CensorPosts();
-        CensorComments();
-        HookMoreButtons();
+            RenderButtonsOnProfiles();
+            CensorPosts();
+            CensorComments();
+            HookMoreButtons();
+            CensorArticles();
+
+            //Streams (entry iC) objects containing => comments (wblock lcontrast dC)
+            let streamer = document.getElementById("itemsStream");
+
+            let mutationObs = new MutationObserver(function (e) {
+                //Each added node entry iC
+                for (let j = 0; j < e[0].addedNodes.length; j++) {
+                    //Ignore text node
+                    if (e[0].addedNodes[j].nodeType == 3)
+                        continue;
+                    RenderButtonOnProfile(e[0].addedNodes[j]);
+                    let comments = e[0].addedNodes[j].getElementsByClassName("wblock lcontrast dC");
+                    for (let i = 0; i < comments.length; i++) {
+                        CensorComment(comments[i]);
+                    }
+                }
+            });
+            if (streamer)
+                mutationObs.observe(streamer, { childList: true, subtree: true });
+
+            res();
+        });
     });
 }
 

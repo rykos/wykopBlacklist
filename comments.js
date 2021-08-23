@@ -1,12 +1,11 @@
 
 function CensorComment(comment) {
-    if (IsBlocked(GetUsernameFromHref(comment.getElementsByClassName("profile")[0].href))) {
-        console.log(comment);
+    let href = comment.getElementsByClassName("profile")[0].href;
+    if (IsBlocked(GetUsernameFromHref(href))) {
         comment.getElementsByClassName("text")[0].getElementsByTagName("p")[0].style.display = "none";
-        // comment.getElementsByClassName("text")[0].comment.getElementsByClassName("media-content")[0].style.display = "none";
+
         let medias = comment.getElementsByClassName("text")[0].getElementsByClassName("media-content");
         if (medias.length > 0) {
-            console.log("medias detected");
             medias[0].style.display = "none";
         }
         let elem = document.createElement("p");
@@ -30,9 +29,7 @@ function ShowCommentClick(event) {
     event.target.style.display = "none";
 }
 
-
 function CensorComments(scope = document) {
-    console.log("cc");
     let subs = scope.getElementsByClassName("wblock lcontrast dC");
     for (let j = 0; j < subs.length; j++) {
         CensorComment(subs[j]);

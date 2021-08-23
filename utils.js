@@ -1,8 +1,17 @@
 function GetUsernameFromHref(href) {
+    if (!href)
+        return null;
+    let split = href.split('/');
+    if (split.length < 5)
+        return null;
     return href.split('/')[4];
 }
 
 function BlockUser(username) {
+    if ((new Blob([blockList])).size > 8000) {
+        alert("google max storage reached\nIt will be fixed in later version");
+        return;
+    }
     if (IsBlocked(username)) {
         let index = blockList.indexOf(username);
         blockList.splice(index, 1);
@@ -10,7 +19,7 @@ function BlockUser(username) {
     else {
         blockList.push(username);
     }
-    chrome.storage.sync.set({ 'blocks': blockList }, function () { console.log(blockList); });
+    chrome.storage.sync.set({ 'blocks': blockList }, function () { });
 
     UpdateBlockButtons(username);
 }
@@ -36,3 +45,11 @@ function eagerLoad() {
             imgs[i].src = imgs[i].dataset.original;
     }
 }
+
+function LoadBlacklistToMemory(data) {
+    blockList = data;
+    if (!blockList)
+        blockList = [];
+}
+
+//m-reset-position m-make-center m-set-space
