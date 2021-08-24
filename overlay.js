@@ -25,9 +25,16 @@ function RenderButtonOnProfile(profile) {
 
     profile = profile.getElementsByClassName("profile");
     for (let i = 0; i < profile.length; i++) {
+        //Stop multiple renders
+        if (ProfileIsReady(profile[i]))
+            return;
+
         let username = GetUsernameFromHref(profile[i].href);
         let element = CreateBlockButton(IsBlocked(username), username);
         profile[i].appendChild(element);
+
+        //Mark as rendered
+        profile[i].setAttribute("data-blacklistrender", "done");
     }
 }
 
@@ -82,32 +89,35 @@ function UpdateBlockButtons(username) {
     }
 }
 
+function CensorArticle(article) {
+    let username = article.getElementsByClassName("fix-tagline")[0].querySelectorAll("[class^='color']")[0];
+    if (!username)
+        return;
+    username = GetUsernameFromHref(username.href);
+    if (IsBlocked(username)) {
+        article.style.display = "none";
+
+        let medias = article.getElementsByClassName("text")[0].getElementsByClassName("media-content");
+        if (medias.length > 0) {
+            medias[0].style.display = "none";
+        }
+        let elem = document.createElement("p");
+        elem.innerText = "Wyswietl artykuł";
+        elem.style.margin = "5px";
+        elem.style.display = "flex";
+        elem.style.justifyContent = "center";
+        elem.style.cursor = "pointer";
+        elem.onclick = (event) => {
+            article.style.display = "block";
+            event.target.style.display = "none";
+        };
+        article.parentElement.prepend(elem);
+    }
+}
+
 function CensorArticles() {
     let articles = document.getElementsByClassName("article  clearfix preview   dC");
     for (let index = 0; index < articles.length; index++) {
-        let username = articles[index].getElementsByClassName("fix-tagline")[0].querySelectorAll("[class^='color']")[0];
-        if (!username)
-            continue;
-        username = GetUsernameFromHref(username.href);
-        let article = articles[index];
-        if (IsBlocked(username)) {
-            article.style.display = "none";
-
-            let medias = article.getElementsByClassName("text")[0].getElementsByClassName("media-content");
-            if (medias.length > 0) {
-                medias[0].style.display = "none";
-            }
-            let elem = document.createElement("p");
-            elem.innerText = "Wyswietl artykuł";
-            elem.style.margin = "5px";
-            elem.style.display = "flex";
-            elem.style.justifyContent = "center";
-            elem.style.cursor = "pointer";
-            elem.onclick = (event) => {
-                article.style.display = "block";
-                event.target.style.display = "none";
-            };
-            article.parentElement.prepend(elem);
-        }
+        CensorArticle(articles[index]);
     }
 }

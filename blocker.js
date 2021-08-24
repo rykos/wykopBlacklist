@@ -54,7 +54,7 @@ function Main() {
     eagerLoad();
 
     //Load blocked users and proceed to block content
-    promise = new Promise((res, rej) => {
+    promise = new Promise((resolve, reject) => {
         chrome.storage.sync.get('blocks', function (result) {
             blockList = result.blocks;
             if (!blockList)
@@ -67,6 +67,7 @@ function Main() {
             CensorArticles();
 
             //Streams (entry iC) objects containing => comments (wblock lcontrast dC)
+            //                                      => articles (article  clearfix preview   dC)
             let streamer = document.getElementById("itemsStream");
 
             let mutationObs = new MutationObserver(function (e) {
@@ -76,16 +77,22 @@ function Main() {
                     if (e[0].addedNodes[j].nodeType == 3)
                         continue;
                     RenderButtonOnProfile(e[0].addedNodes[j]);
+                    //Streamed comments
                     let comments = e[0].addedNodes[j].getElementsByClassName("wblock lcontrast dC");
                     for (let i = 0; i < comments.length; i++) {
                         CensorComment(comments[i]);
+                    }
+                    //Streamed articles
+                    let articles = e[0].addedNodes[j].getElementsByClassName("article  clearfix preview   dC");
+                    for (let i = 0; i < articles.length; i++) {
+                        CensorArticle(articles[i]);
                     }
                 }
             });
             if (streamer)
                 mutationObs.observe(streamer, { childList: true, subtree: true });
 
-            res();
+            resolve();
         });
     });
 }
