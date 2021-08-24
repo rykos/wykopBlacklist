@@ -28,7 +28,11 @@ chrome.storage.sync.get('blocks', function (result) {
         button.id = username;
 
         let elem = document.createElement("div");
-        elem.innerText = username;
+        let textElem = document.createElement("div");
+        textElem.innerText = username;
+        textElem.style.overflow = "hidden";
+        elem.appendChild(textElem);
+        // elem.innerText = username;
         elem.style.width = "100%";
         elem.style.display = "flex";
         elem.style.justifyContent = "space-between";
