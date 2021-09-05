@@ -3,6 +3,7 @@ const REPLACEBANNER_ID = "wykopBlacklistReplaceBanner";
 const BLOCKBUTTON_ID = "wykopblacklistBlockButton";
 
 var blockList = [];
+var loggedUsername = "";
 
 var posts = document.getElementsByClassName("entry iC");
 
@@ -52,6 +53,7 @@ var promise;
 function Main() {
     //Force eager load
     eagerLoad();
+    this.loggedUsername = GetUsernameFromHref(document.getElementsByClassName("logged-user ddC")[0]?.getElementsByTagName("a")[0]?.href);
 
     //Load blocked users and proceed to block content
     promise = new Promise((resolve, reject) => {

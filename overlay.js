@@ -39,9 +39,13 @@ function RenderButtonOnProfile(profile) {
 }
 
 function RenderButtonsOnProfiles(scope = document) {
-    let profiles = scope.getElementsByClassName("profile");
+    let profiles = scope.getElementsByClassName("profile")
     for (let i = 0; i < profiles.length; i++) {
         let username = GetUsernameFromHref(profiles[i].href);
+        //Stop rendering on yourself
+        if(username == loggedUsername)
+            continue;
+        
         let element = CreateBlockButton(IsBlocked(username), username);
         profiles[i].appendChild(element);
     }
@@ -92,7 +96,7 @@ function UpdateBlockButtons(username) {
 function CensorArticle(article) {
     let username = article.getElementsByClassName("fix-tagline")[0].querySelectorAll("[class^='color']")[0];
     if (!username)
-        return;
+    return;
     username = GetUsernameFromHref(username.href);
     if (IsBlocked(username)) {
         article.style.display = "none";

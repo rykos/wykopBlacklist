@@ -9,7 +9,7 @@ function GetUsernameFromHref(href) {
 
 function BlockUser(username, autoupdate = true) {
     if ((new Blob([blockList])).size > 8000) {
-        alert("google max storage reached\nIt will be fixed in later version");
+        alert("google max storage reached\nNapisz do rykos na wykopie to naprawie bo teraz mi się nie chce ( ͡° ͜ʖ ͡°)");
         return;
     }
     if (IsBlocked(username)) {
@@ -17,6 +17,10 @@ function BlockUser(username, autoupdate = true) {
         blockList.splice(index, 1);
     }
     else {
+        if (username == loggedUsername) {
+            alert("Już nie wolno blokować siebie samego ( ͡° ͜ʖ ͡°) idź coś innego zepsuć");
+            return;
+        }
         blockList.push(username);
     }
     chrome.storage.sync.set({ 'blocks': blockList }, function () { });

@@ -1,6 +1,9 @@
 
 function CensorComment(comment) {
     let href = comment.getElementsByClassName("profile")[0].href;
+    if(comment.getElementsByClassName("profile")[0].parentElement.getElementsByClassName("commentCensorBlock")[0]){
+        return;
+    }
     if (IsBlocked(GetUsernameFromHref(href))) {
         comment.getElementsByClassName("text")[0].getElementsByTagName("p")[0].style.display = "none";
 
@@ -9,6 +12,7 @@ function CensorComment(comment) {
             medias[0].style.display = "none";
         }
         let elem = document.createElement("p");
+        elem.className = "commentCensorBlock";
         elem.innerText = "Wyswietl komentarz";
         elem.style.margin = "5px";
         elem.style.display = "flex";
